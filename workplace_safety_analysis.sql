@@ -23,10 +23,10 @@ SELECT COUNT(*) AS "Rows Before Cleaning"
 FROM workplace_safety;
 
 -- Step 3: Counted blanks in the key columns so averages reflect known gaps
-SELECT COUNT(*)                                                                          AS "Total Rows",
-       SUM(CASE WHEN TRIM("Rate of Fatalities, 2012") = '' THEN 1 ELSE 0 END)            AS "Blank Fatality Rate",
-       SUM(CASE WHEN TRIM("Number of Injuries/Illnesses 2012") = '' THEN 1 ELSE 0 END)   AS "Blank Injuries",
-       SUM(CASE WHEN TRIM("Inspectors") = '' THEN 1 ELSE 0 END)                          AS "Blank Inspectors",
+SELECT COUNT(*)                                                                           AS "Total Rows",
+       SUM(CASE WHEN TRIM("Rate of Fatalities, 2012") = '' THEN 1 ELSE 0 END)             AS "Blank Fatality Rate",
+       SUM(CASE WHEN TRIM("Number of Injuries/Illnesses 2012") = '' THEN 1 ELSE 0 END)    AS "Blank Injuries",
+       SUM(CASE WHEN TRIM("Inspectors") = '' THEN 1 ELSE 0 END)                           AS "Blank Inspectors",
        SUM(CASE WHEN TRIM("Years to Inspect Each Workplace Once") = '' THEN 1 ELSE 0 END) AS "Blank Inspection Cycle"
 FROM workplace_safety;
 
@@ -35,16 +35,16 @@ DROP TABLE IF EXISTS safety_clean;
 
 CREATE TABLE safety_clean AS
 SELECT
-    TRIM(SUBSTR(State, 1, INSTR(State, CHAR(10)) - 1))                                                   AS "State",
-    "State or Federal Program"                                                                           AS "Program Type",
-    CAST(NULLIF(TRIM("Rate of Fatalities, 2012"), '') AS REAL)                                           AS "Fatality Rate",
-    CAST(NULLIF(TRIM("Number of Fatalities, 2012"), '') AS REAL)                                         AS "Fatalities",
-    CAST(NULLIF(TRIM("Number of Injuries/Illnesses 2012"), '') AS REAL)                                  AS "Injuries and Illnesses",
-    CAST(NULLIF(TRIM("State Rank, Fatalities 2012"), '') AS REAL)                                         AS "Fatality Rank",
-    CAST(NULLIF(TRIM("Penalties FY 2013 (Average $)"), '') AS REAL)                                       AS "Average Penalty",
-    CAST(NULLIF(TRIM("Penalties FY 2013 (Rank)"), '') AS REAL)                                            AS "Penalty Rank",
-    CAST(NULLIF(TRIM("Inspectors"), '') AS REAL)                                                          AS "Inspectors",
-    CAST(NULLIF(TRIM("Years to Inspect Each Workplace Once"), '') AS REAL)                                AS "Inspection Cycle Years"
+    TRIM(SUBSTR(State, 1, INSTR(State, CHAR(10)) - 1))                                    AS "State",
+    "State or Federal Program"                                                            AS "Program Type",
+    CAST(NULLIF(TRIM("Rate of Fatalities, 2012"), '') AS REAL)                            AS "Fatality Rate",
+    CAST(NULLIF(TRIM("Number of Fatalities, 2012"), '') AS REAL)                          AS "Fatalities",
+    CAST(NULLIF(TRIM("Number of Injuries/Illnesses 2012"), '') AS REAL)                   AS "Injuries and Illnesses",
+    CAST(NULLIF(TRIM("State Rank, Fatalities 2012"), '') AS REAL)                         AS "Fatality Rank",
+    CAST(NULLIF(TRIM("Penalties FY 2013 (Average $)"), '') AS REAL)                       AS "Average Penalty",
+    CAST(NULLIF(TRIM("Penalties FY 2013 (Rank)"), '') AS REAL)                            AS "Penalty Rank",
+    CAST(NULLIF(TRIM("Inspectors"), '') AS REAL)                                          AS "Inspectors",
+    CAST(NULLIF(TRIM("Years to Inspect Each Workplace Once"), '') AS REAL)                AS "Inspection Cycle Years"
 FROM workplace_safety
 WHERE "State or Federal Program" IN ('State', 'Federal');
 
